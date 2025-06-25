@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>誕生日の手紙</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Kiwi Maru', serif;
+      background: #fffef9;
+    }
+
+    .landing, .message, .ending {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+    .landing {
+      background: url('envelope.png') center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .open-button {
+      background: rgba(255,255,255,0.9);
+      padding: 20px 40px;
+      font-size: 2rem;
+      color: #5a3e36;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .message {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      z-index: 1;
+      background: #fffef9;
+    }
+
+    .message.show {
+      display: flex;
+    }
+
+    .letter-box {
+      background: repeating-linear-gradient(#fffaf2, #fffaf2 30px, #eaddcc 31px, #fffaf2 32px);
+      border: 2px solid #e8d5c4;
+      border-radius: 12px;
+      padding: 30px 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: relative;
+      animation: fadeIn 1s ease-in;
+    }
+
+    ul {
+      padding-left: 1.2em;
+    }
+
+    li {
+      margin-bottom: 0.4em;
+    }
+
+    .fade-line {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeInUp 0.6s forwards;
+    }
+
+    .fade-line:nth-child(1) { animation-delay: 0.2s; }
+    .fade-line:nth-child(2) { animation-delay: 0.4s; }
+    .fade-line:nth-child(3) { animation-delay: 0.6s; }
+    .fade-line:nth-child(4) { animation-delay: 0.8s; }
+    .fade-line:nth-child(5) { animation-delay: 1.0s; }
+    .fade-line:nth-child(6) { animation-delay: 1.2s; }
+    .fade-line:nth-child(7) { animation-delay: 1.4s; }
+    .fade-line:nth-child(8) { animation-delay: 1.6s; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .close-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #eaddcc;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      z-index: 3;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+
+    .close-button:hover {
+      background: #d6c2b0;
+    }
+
+
+    .burn {
+      animation: flameBurn 5s forwards;
+    }
+
+    @keyframes flameBurn {
+      0%   { opacity: 1; transform: scale(1) rotate(0deg); filter: brightness(1); }
+      20%  { transform: rotate(2deg) scale(1.01); filter: brightness(1.4) hue-rotate(-10deg); }
+      40%  { transform: rotate(-3deg) scale(1.02); filter: brightness(0.8) blur(1px); }
+      60%  { transform: rotate(4deg) scale(0.97); filter: brightness(1.2); }
+      80%  { transform: rotate(-2deg) scale(0.9); filter: brightness(0.6) blur(2px); }
+      100% { opacity: 0; transform: scale(0.8) rotate(-8deg); filter: brightness(0.3) blur(4px); }
+    }
+
+    .ending {
+      background: black;
+      color: white;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+    }
+
+    .ending.show {
+      display: flex;
+      animation: fadeIn 2s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 封筒ページ -->
+  <div class="landing" id="landing">
+    <button class="open-button" onclick="showMessage()">Open</button>
+  </div>
+
+  <!-- 手紙ページ -->
+  <div class="message" id="message">
+    <div class="letter-box" id="letterBox">
+      <p class="fade-line"><strong>18日(金)のご案内</strong></p>
+      <ul>
+        <li class="fade-line">18:00 東白楽駅　集合</li>
+        <li class="fade-line">18:15 出発(運転：)</li>
+        <li class="fade-line">20:00 ホテル到着</li>
+      </ul>
+      <p class="fade-line"><strong>持ち物</strong></p>
+      <ul>
+        <li class="fade-line">1泊分の着替え</li>
+        <li class="fade-line">25歳になる気持ち</li>
+        <li class="fade-line">お酒を楽しむ気持ち</li>
+      </ul>
+      <p class="fade-line" style="text-align: right;">おたのしみに〜</p>
+    </div>
+  </div>
+
+  <!-- 手紙専用ボタン -->
+  <button class="close-button" id="closeBtn" style="display: none;" onclick="burnLetter()">読み終えた</button>
+
+  <!-- 終了画面 -->
+  <div class="ending" id="ending">
+    Coming soon....
+  </div>
+
+  <script>
+    function showMessage() {
+      document.getElementById('landing').style.display = 'none';
+      const msg = document.getElementById('message');
+      const btn = document.getElementById('closeBtn');
+      msg.classList.add('show');
+      btn.style.display = 'block'; // 手紙ページのみ表示
+    }
+
+    function burnLetter() {
+      const letter = document.getElementById('letterBox');
+      const btn = document.getElementById('closeBtn');
+      btn.style.display = 'none'; // 非表示
+      letter.classList.add('burn');
+      setTimeout(() => {
+        document.getElementById('message').style.display = 'none';
+        const ending = document.getElementById('ending');
+        ending.classList.add('show');
+      }, 5000); // 5秒後に切り替え
+    }
+  </script>
+
+</body>
+</html>
